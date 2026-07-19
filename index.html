@@ -41,8 +41,8 @@
                 <h2 class="card-title">HI THERE I'M NITIKASH</h2>
                 <p class="card-text">I'm a passionate web developer with a keen eye for design and a love for creating engaging,and highly responsive websites that provide excellent user experiences. Whith a strong foundation in HTML, CSS, and JavaScript, I strive to build modern, accessible, and performant web applications. My expertise extends to to advance frameworks like React and tailwind CSS. enabling me to create dynamic and visually appealing web experiences. My goal is to develop web solutions that are both functional and innovative.</p>
                 <img src="images/gradient1.png" alt="" class="background-img">
-                <div class="model-box">
-                    <spline-viewer class="info-3D" url="https://prod.spline.design/Phq6mOvYUMPtCWsw/scene.splinecode"></spline-viewer>
+                <div class="model-box" id="info-3d-container">
+                    <!-- Spline viewer injected dynamically -->
                 </div>
              </div>
 
@@ -75,10 +75,10 @@
 
         <div class="slider" style="--width: 60rem; --height: 40rem; --quantity: 4;">
             <div class="list">
-                <div class="item" style="--position:1"><video id="projectVideo1" muted loop playsinline src="video/video1.mp4"></video></div>
-                <div class="item" style="--position:2"><video id="projectVideo2" muted loop playsinline src="video/video2.mp4"></video></div>
-                <div class="item" style="--position:3"><video id="projectVideo3" muted loop playsinline src="video/video3.mp4"></video></div> 
-                <div class="item" style="--position:4"><video id="projectVideo4" muted loop playsinline src="video/video4.mp4"></video></div>
+                <div class="item" style="--position:1"><video id="projectVideo1" muted loop playsinline preload="auto" src="video/video1.mp4"></video></div>
+                <div class="item" style="--position:2"><video id="projectVideo2" muted loop playsinline preload="auto" src="video/video2.mp4"></video></div>
+                <div class="item" style="--position:3"><video id="projectVideo3" muted loop playsinline preload="auto" src="video/video3.mp4"></video></div> 
+                <div class="item" style="--position:4"><video id="projectVideo4" muted loop playsinline preload="auto" src="video/video4.mp4"></video></div>
             </div>
         </div>
     </section>
@@ -127,8 +127,8 @@
         </div>
     </footer>
 
-    <!-- Spline Background Robot -->
-    <spline-viewer class="robo-3D" url="https://prod.spline.design/1ta0qpkKcEijb6Ta/scene.splinecode"></spline-viewer>
+    <!-- Spline Background Robot Container -->
+    <div id="robo-3d-container" class="robo-3D"></div>
 
     <!-- Essential Scripts -->
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.98/build/spline-viewer.js"></script>
