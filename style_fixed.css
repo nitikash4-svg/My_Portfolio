@@ -272,7 +272,7 @@ main h2 {
 
 .model-box {
     position: absolute;
-    right: 15%;
+    right: 5%;
     top: -45%;
     width: 30rem;
     height: 30rem;
@@ -570,7 +570,7 @@ footer {
     .slider .list { min-width: calc(30rem * var(--quantity)); }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 950px) {
     /* 1-Column layout taaki cards overlap na karein */
     .bento-grid {
         grid-template-columns: 1fr;
@@ -581,9 +581,9 @@ footer {
             "passion";
         height: auto;
     }
-
+    .model-box { right: 45%; top: 0%; scale: 1.5;  }
     .contact-grid { grid-template-columns: 1fr; }
-    
+    .location p { position: relative; z-index: 10; }
     /* Gaps for tablets */
     .about-section { margin-top: 5rem; }
     .projects-section { margin-top: 5rem; }
@@ -619,7 +619,7 @@ footer {
     .about-title { margin-bottom: 5%; font-size: 3rem; }
     
     /* ORIGINAL PFP SETTING */
-    .model-box { right: -4%; top: 27%; scale: 0.7; }
+    .model-box { right: 4%; top: 20%; scale: 0.7; }
     
     /* Gaps for mobile */
     .about-section { margin-top: 4rem; }
@@ -660,7 +660,7 @@ footer {
     .contact-btn { padding: 0.4rem 1.5rem; font-size: 0.9rem; }
     
     /* ORIGINAL PFP SETTING */
-    .model-box { right: 2%; top: 27%; }
+    .model-box { right: 2%; top: 20%; }
     
     /* Footer ab bilkul edges se touch hoga (Full width) */
     footer { 
