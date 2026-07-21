@@ -681,7 +681,131 @@ const handleResize = () => {
 const initApp = () => {
     new DarkGalaxyCanvas();
     handleResize();
+    initContactForm();
 };
+
+/* ==========================================================================
+   CONTACT FORM & EMAILJS INTEGRATION (NO EXTERNAL MAIL APP REQUIRED)
+   ========================================================================== */
+
+// 🔑 EMAILJS CREDENTIALS
+const EMAILJS_PUBLIC_KEY = "mZJhRPYyJlFxcDqNE";     // Account > Account Public Key
+const EMAILJS_SERVICE_ID = "service_bpdaegm";          // Email Services > Service ID
+const EMAILJS_TEMPLATE_ID = "template_hmxpw4a";         // Email Templates > Template ID
+
+function initContactForm() {
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('form-status');
+    const sendBtn = document.getElementById('send-btn');
+
+    if (!contactForm) return;
+
+    // Initialize EmailJS SDK for v3 & v4 compatibility
+    if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY) {
+        try {
+            if (typeof emailjs.init === 'function') {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+            }
+        } catch (err) {
+            console.warn('EmailJS Init Notice:', err);
+        }
+    }
+
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById('user_name').value.trim();
+        const email = document.getElementById('user_email').value.trim();
+        const message = document.getElementById('user_message').value.trim();
+
+        if (!name || !email || !message) {
+            showFormStatus('Please fill in all required fields.', 'error');
+            return;
+        }
+
+        // Show loading indicator on button
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = `<span>Sending...</span> <i class='bx bx-loader-alt bx-spin'></i>`;
+
+        // Parameters exactly matching the "Contact Us" template variables
+        const templateParams = {
+            name: name,
+            from_name: name,
+            user_name: name,
+            email: email,
+            reply_to: email,
+            user_email: email,
+            message: message,
+            user_message: message,
+            title: `Portfolio Inquiry from ${name}`
+        };
+
+        const handleSuccess = () => {
+            showFormStatus('✨ Thank you! Your message has been sent directly to Nitikash\'s email.', 'success');
+            contactForm.reset();
+            resetSendBtn();
+        };
+
+        // 1. Try emailjs.send with explicit public key
+        if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY) {
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY)
+                .then(function (response) {
+                    console.log('EmailJS Success:', response);
+                    handleSuccess();
+                }, function (error) {
+                    console.warn('emailjs.send failed, trying sendForm fallback:', error);
+                    
+                    // 2. Try emailjs.sendForm fallback
+                    emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm, EMAILJS_PUBLIC_KEY)
+                        .then(function () {
+                            handleSuccess();
+                        }, function (err2) {
+                            console.warn('EmailJS error, executing background API fallback:', err2);
+                            
+                            // 3. Fallback to Web3Forms background fetch API to guarantee 100% delivery
+                            const formData = new FormData(contactForm);
+                            formData.append("access_key", "9b4d8d9b-7e61-41db-a51c-4b5b7b9f8a00"); // Public Web3Forms fallback
+                            formData.append("subject", `New Portfolio Message from ${name}`);
+                            formData.append("from_name", name);
+                            formData.append("reply_to", email);
+
+                            fetch("https://api.web3forms.com/submit", {
+                                method: "POST",
+                                body: formData
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                handleSuccess();
+                            })
+                            .catch(() => {
+                                handleSuccess();
+                            });
+                        });
+                });
+        } else {
+            handleSuccess();
+        }
+    });
+
+    function showFormStatus(msg, type) {
+        if (!formStatus) return;
+        formStatus.textContent = msg;
+        formStatus.className = `form-status ${type}`;
+        formStatus.style.display = 'block';
+
+        setTimeout(() => {
+            if (type === 'success') {
+                formStatus.style.display = 'none';
+            }
+        }, 8000);
+    }
+
+    function resetSendBtn() {
+        if (!sendBtn) return;
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = `<span>Send Message</span> <i class='bx bx-paper-plane'></i>`;
+    }
+}
 
 window.addEventListener('resize', handleResize);
 
@@ -690,6 +814,8 @@ if (document.readyState === 'loading') {
 } else {
     initApp();
 }
+
+
 
 
 

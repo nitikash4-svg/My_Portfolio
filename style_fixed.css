@@ -306,7 +306,7 @@ main h2 {
 .info-3D {
     width: 150%;
     height: 150%;
-    mix-blend-mode: lighten;
+    opacity: 0.89;
 }
 
 .bento-grid .skills-group {
@@ -418,6 +418,160 @@ main h2 {
     z-index: 10;
 }
 
+/* PROJECTS GRID */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 4rem;
+}
+
+.project-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(124, 233, 230, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 233, 230, 0.15);
+}
+
+.project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.header-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-tag {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(124, 233, 230, 0.15);
+    color: #7ce9e6;
+    font-weight: 600;
+}
+
+.dev-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+    backdrop-filter: blur(4px);
+}
+
+.dev-badge i {
+    font-size: 0.85rem;
+    color: #fbbf24;
+}
+
+.project-icon {
+    font-size: 1.8rem;
+    color: #b4a6fb;
+}
+
+.project-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.8rem;
+}
+
+.project-desc {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.8rem;
+}
+
+.project-tech span {
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: #cccccc;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-links {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: auto;
+}
+
+.project-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.project-btn.primary-btn {
+    background: #7ce9e6;
+    color: #0d0d12;
+    border: 1px solid #7ce9e6;
+}
+
+.project-btn.primary-btn:hover {
+    background: #5cd0ce;
+    box-shadow: 0 0 15px rgba(124, 233, 230, 0.4);
+    transform: translateY(-2px);
+}
+
+.project-btn.secondary-btn {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-btn.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
 /* CONTACT SECTION */
 .contact-section {
     padding: 60px 0;
@@ -449,13 +603,14 @@ main h2 {
     margin: 0 auto;
 }
 
-/* CONTACT GRID */
+/* CONTACT GRID & FORM */
 .contact-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Sirf ek column */
-    max-width: 600px; /* Card ko bahut bada hone se bachane ke liye */
-    margin: 0 auto; /* Center karne ke liye */
+    grid-template-columns: 1fr 1.2fr;
+    max-width: 1100px;
+    margin: 0 auto;
     gap: 30px;
+    align-items: start;
 }
 
 .info-card {
@@ -513,11 +668,8 @@ main h2 {
 
 .social-link a {
     display: inline-block;
-    margin-right: 12px; /* Horizontal gap */
-    margin-bottom: 15px; /* --- NAYA CODE: Vertical gap taaki buttons ek-doosre par na chadhein --- */
-    color: lightgray;
-    text-decoration: none;
-    padding: 8px 15px;
+    margin-right: 12px;
+    margin-bottom: 15px;
     color: lightgray;
     text-decoration: none;
     padding: 8px 15px;
@@ -529,6 +681,120 @@ main h2 {
 .social-link a:hover {
     background-color: #7ce9e6;
     color: #131314;
+}
+
+/* CONTACT FORM CARD */
+.contact-form-card {
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.contact-form-card:hover {
+    transform: translateY(-5px);
+}
+
+.contact-form-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: lightgray;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #7ce9e6;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #7ce9e6;
+    box-shadow: 0 0 10px rgba(124, 233, 230, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.send-message-btn {
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(90deg, #7ce9e6, #b4a6fb);
+    color: #0b0b10;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.send-message-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(124, 233, 230, 0.4);
+}
+
+.send-message-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.send-message-btn:hover i {
+    transform: translateX(4px) translateY(-2px);
+}
+
+.form-status {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    display: none;
+}
+
+.form-status.success {
+    display: block;
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.form-status.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 
