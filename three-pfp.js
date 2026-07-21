@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
     initThreePfp();
 });
 
@@ -9,11 +9,10 @@ function initThreePfp() {
     // Clear the container (this will remove any existing <img> tag)
     container.innerHTML = '';
     
-    // We will get dimensions from the container itself.
-    // Make sure container has some size. If it's a flex container, it might need explicit sizing for the canvas.
-    // The container was styled with flex-end, but let's give it fixed width/height so canvas can fill it.
-    let width = container.clientWidth || 224; // ~14rem fallback
-    let height = container.clientHeight || 288; // ~18rem fallback
+    // Use fixed base resolution to match 14rem x 18rem (approx 224x288) 
+    // because container.clientWidth might be much larger (30rem)
+    let width = 224; 
+    let height = 288; 
     
     // Setup Scene, Camera, Renderer
     const scene = new THREE.Scene();
@@ -21,7 +20,7 @@ function initThreePfp() {
     camera.position.z = 5;
     
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(width, height);
+    renderer.setSize(width, height, false); // false means don't force CSS styles
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
     
@@ -29,22 +28,21 @@ function initThreePfp() {
     renderer.domElement.style.width = '14rem';
     renderer.domElement.style.height = '18rem';
     renderer.domElement.style.objectFit = 'cover';
-    renderer.domElement.style.borderRadius = '12px';
+    renderer.domElement.style.borderRadius = '24px';
     renderer.domElement.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
     renderer.domElement.style.marginRight = '-2rem';
     renderer.domElement.style.marginTop = '5rem';
     
-    // On mobile, the width/height of the container changes.
-    // We need to handle resizing properly.
+    // Handle resizing correctly by reading the actual canvas size
     window.addEventListener('resize', () => {
-        width = container.clientWidth || 224;
-        height = container.clientHeight || 288;
-        renderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        
-        // Remove fixed margins/widths if on mobile so media queries take over container styling.
-        // For simplicity, we keep the inline styles on the canvas to mirror the old <img> tag styles.
+        // Only update if the canvas actually changes size
+        if (renderer.domElement.clientWidth && renderer.domElement.clientHeight) {
+            width = renderer.domElement.clientWidth;
+            height = renderer.domElement.clientHeight;
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
     });
 
     const loader = new THREE.TextureLoader();
@@ -75,26 +73,34 @@ function initThreePfp() {
             varying vec2 vUv;
             
             void main() {
-                vec4 texColor = texture2D(uTexture, vUv);
+                // Cyber scanning parameters
+                float speed = 0.5;
+                float barY = mod(uTime * speed, 1.2) - 0.1; 
+                float dist = vUv.y - barY;
                 
-                // Add a glowing scanning bar effect moving from bottom to top
-                float barY = mod(uTime * 0.4, 1.2) - 0.1; // Loops between -0.1 and 1.1
-                float dist = abs(vUv.y - barY);
+                // Chromatic aberration (RGB shift) near the scanline
+                float aberration = smoothstep(0.05, 0.0, abs(dist)) * 0.015;
                 
-                // Create a sharp glow using smoothstep
-                float glow = smoothstep(0.08, 0.0, dist);
+                vec4 texColor;
+                texColor.r = texture2D(uTexture, vec2(vUv.x + aberration, vUv.y)).r;
+                texColor.g = texture2D(uTexture, vUv).g;
+                texColor.b = texture2D(uTexture, vec2(vUv.x - aberration, vUv.y)).b;
+                texColor.a = texture2D(uTexture, vUv).a;
                 
-                // Add subtle scanlines over the whole image
-                float scanlines = sin(vUv.y * 100.0) * 0.04;
+                // Laser core (very sharp bright line)
+                float core = smoothstep(0.005, 0.0, abs(dist));
+                
+                // Trail glow (only above the line since it moves up)
+                float trail = smoothstep(0.15, 0.0, dist) * step(0.0, dist);
                 
                 vec3 finalColor = texColor.rgb;
                 
-                // Apply scanlines (darken slightly)
-                finalColor -= scanlines;
+                // Cyber Neon Cyan color
+                vec3 cyberColor = vec3(0.0, 0.9, 1.0);
                 
-                // Apply bright cyan/blue scan bar glow
-                vec3 glowColor = vec3(0.0, 0.8, 1.0); 
-                finalColor += glowColor * glow * 0.6; // 0.6 is intensity
+                // Add intense laser core and soft trail
+                finalColor += cyberColor * core * 1.2; 
+                finalColor += cyberColor * trail * 0.4; 
                 
                 gl_FragColor = vec4(finalColor, texColor.a);
             }

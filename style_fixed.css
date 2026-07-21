@@ -300,13 +300,14 @@ main h2 {
     top: -15%;
     width: 20rem;
     height: 30rem;
-    border-radius: 24px;
+   
 }
 
 .info-3D {
     width: 150%;
     height: 150%;
     opacity: 0.89;
+   
 }
 
 .bento-grid .skills-group {
@@ -1000,7 +1001,7 @@ footer {
     }
     
     /* ORIGINAL PFP SETTING */
-    .model-box { right: 18%; top: 35%; scale: 0.7; }
+    .model-box { right: 15%; top: 35%; scale: 0.6; }
     
     /* Footer ab bilkul edges se touch hoga (Full width) */
     footer { 
