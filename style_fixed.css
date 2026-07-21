@@ -5,6 +5,17 @@ body {
     padding: 3rem;
 }
 
+#cosmic-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
+    background: transparent;
+}
+
 html, body {
     
     scroll-behavior: smooth;
@@ -168,6 +179,13 @@ main h2 {
     opacity: 0; 
     animation: smoothRoboLoad 1s ease-out forwards;
     animation-delay: 0.6s;
+    pointer-events: auto;
+}
+
+.robo-3D canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
 }
 
 .robo-3D spline-viewer {
@@ -597,8 +615,20 @@ footer {
     .projects-section { margin-top: 5rem; }
     .contact-section { margin-top: 5rem; margin-bottom: 5rem; }
     
-    /* Hide background robot container on mobile/tablet */
-    .robo-3D { display: none !important; }
+    /* Mobile Three.js pet robot container styling */
+    .robo-3D {
+        display: block !important;
+        position: absolute;
+        top: 18%;
+        right: 0;
+        width: 100%;
+        height: 48vh;
+        mask-image: linear-gradient(to bottom, black 85%, transparent);
+        -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent);
+        opacity: 0.98;
+        z-index: 1;
+        pointer-events: auto;
+    }
     
     /* Disable spotlight cards on mobile/tablets */
     .card::before { display: none !important; }
