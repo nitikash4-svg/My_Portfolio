@@ -669,12 +669,13 @@ const handleResize = () => {
     }
 
     // Manage card avatar (always loaded on both mobile and desktop)
-    if (infoContainer && !infoContainer.querySelector('spline-viewer')) {
-        const infoViewer = document.createElement('spline-viewer');
-        infoViewer.className = 'info-3D';
-        infoViewer.setAttribute('url', 'https://prod.spline.design/Phq6mOvYUMPtCWsw/scene.splinecode');
-        infoContainer.appendChild(infoViewer);
-    }
+    // Removed 3D model injection to display the static profile picture instead
+    // if (infoContainer && !infoContainer.querySelector('spline-viewer')) {
+    //     const infoViewer = document.createElement('spline-viewer');
+    //     infoViewer.className = 'info-3D';
+    //     infoViewer.setAttribute('url', 'https://prod.spline.design/Phq6mOvYUMPtCWsw/scene.splinecode');
+    //     infoContainer.appendChild(infoViewer);
+    // }
 };
 
 // Initialize 2D cosmic galaxy background & 3D viewers when DOM is ready
