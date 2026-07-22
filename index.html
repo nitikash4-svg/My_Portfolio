@@ -76,7 +76,7 @@
     </section>
 
     <section class="projects-section"> 
-        <h3 data-aos="fade-down" data-aos-easing="linear" data-aos-duration="500">MY PROJECTS</h3>
+        <h3 class="about-title" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="500">MY PROJECTS</h3>
 
         <div class="slider" style="--width: 60rem; --height: 40rem; --quantity: 4;">
             <div class="list">
@@ -88,8 +88,8 @@
         </div>
 
         <!-- PROJECT LINKS SHOWCASE -->
-        <div class="projects-grid" data-aos="fade-up" data-aos-duration="600">
-            <div class="project-card">
+        <div class="projects-grid">
+            <div class="project-card" data-aos="fade-up" data-aos-duration="600">
                 <div class="project-card-header">
                     <span class="project-tag">Full Stack</span>
                     <i class='bx bx-code-alt project-icon'></i>
@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="project-card">
+            <div class="project-card" data-aos="fade-up" data-aos-duration="600">
                 <div class="project-card-header">
                     <span class="project-tag">Web App</span>
                     <i class='bx bx-planet project-icon'></i>
@@ -136,7 +136,7 @@
                 </div>
             </div>
 
-            <div class="project-card">
+            <div class="project-card" data-aos="fade-up" data-aos-duration="600">
                 <div class="project-card-header">
                     <div class="header-tags">
                         <span class="project-tag">UI / UX Design</span>
@@ -162,7 +162,7 @@
                 </div>
             </div>
 
-            <div class="project-card">
+            <div class="project-card" data-aos="fade-up" data-aos-duration="600">
                 <div class="project-card-header">
                     <div class="header-tags">
                         <span class="project-tag">Full-stack</span>
@@ -263,7 +263,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init(); // Start Animations
+        AOS.init({ mirror: true }); // Start Animations (with scroll-up animations enabled)
     </script>
     <script src="three-pfp.js"></script>
     <script src="app.js"></script>

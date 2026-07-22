@@ -132,7 +132,10 @@ function initThreePfp() {
             // Update time for the scanning shader
             uniforms.uTime.value = elapsedTime;
             
-            renderer.render(scene, camera);
+            // Only render if the canvas is actually visible (prevents WebGL 0x0 Framebuffer errors)
+            if (renderer.domElement.clientWidth > 0 && renderer.domElement.clientHeight > 0) {
+                renderer.render(scene, camera);
+            }
         }
         
         animate();

@@ -171,7 +171,7 @@ class DarkGalaxyCanvas {
     createBackgroundStars() {
         const count = Math.floor((this.width * this.height) / 2500);
         this.bgStars = [];
-        const colors = ['#ffffff', '#7ce9e6', '#b4a6fb', '#38bdf8', '#f472b6', '#fde047'];
+        const colors = ['#ffffff', '#f4f4f4', '#e8e8e8', '#dddddd', '#cccccc'];
 
         for (let i = 0; i < count; i++) {
             this.bgStars.push({
@@ -195,11 +195,9 @@ class DarkGalaxyCanvas {
         const armWidth = 0.4;
         const colors = [
             'rgba(255, 255, 255, ',
-            'rgba(124, 233, 230, ',  // Cyan
-            'rgba(180, 166, 251, ',  // Violet
-            'rgba(56, 189, 248, ',   // Ice Blue
-            'rgba(244, 114, 182, ',  // Pink
-            'rgba(253, 224, 71, '    // Gold (Core)
+            'rgba(240, 240, 240, ',
+            'rgba(220, 220, 220, ',
+            'rgba(200, 200, 200, '
         ];
 
         const maxRadius = Math.max(this.width, this.height) * 0.45;
@@ -220,14 +218,14 @@ class DarkGalaxyCanvas {
             // Orbital rotation speed (inner stars rotate slightly faster)
             const speed = (0.0003 + (1 - distRatio) * 0.0006);
 
-            // Color selection based on distance to core
+            // Color selection based on distance to core (whiter near center)
             let colorPrefix;
             if (distance < maxRadius * 0.15) {
-                colorPrefix = Math.random() < 0.6 ? colors[5] : colors[0]; // Core gold/white
+                colorPrefix = colors[0]; 
             } else if (distance < maxRadius * 0.4) {
-                colorPrefix = colors[Math.floor(Math.random() * 3) + 1]; // Cyan/Violet/Ice blue
+                colorPrefix = colors[Math.floor(Math.random() * 2)]; 
             } else {
-                colorPrefix = colors[Math.floor(Math.random() * 4) + 1];
+                colorPrefix = colors[Math.floor(Math.random() * 4)];
             }
 
             this.galaxyStars.push({
@@ -266,13 +264,13 @@ class DarkGalaxyCanvas {
         const cy = this.height * 0.45 + this.mouseY;
         const maxRadius = Math.max(this.width, this.height) * 0.45;
 
-        // 1. Draw Deep Galaxy Core Glow Layers
+        // 1. Draw Deep Galaxy Core Glow Layers (Realistic White/Grey Glow)
         const coreGradient = this.ctx.createRadialGradient(cx, cy, 0, cx, cy, maxRadius * 0.7);
-        coreGradient.addColorStop(0, 'rgba(255, 255, 255, 0.45)');
-        coreGradient.addColorStop(0.12, 'rgba(124, 233, 230, 0.25)');
-        coreGradient.addColorStop(0.35, 'rgba(118, 50, 180, 0.18)');
-        coreGradient.addColorStop(0.65, 'rgba(15, 23, 42, 0.10)');
-        coreGradient.addColorStop(1, 'rgba(2, 1, 8, 0)');
+        coreGradient.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+        coreGradient.addColorStop(0.12, 'rgba(200, 200, 200, 0.15)');
+        coreGradient.addColorStop(0.35, 'rgba(100, 100, 100, 0.08)');
+        coreGradient.addColorStop(0.65, 'rgba(50, 50, 50, 0.03)');
+        coreGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
         this.ctx.save();
         this.ctx.fillStyle = coreGradient;
@@ -313,10 +311,7 @@ class DarkGalaxyCanvas {
 
             this.ctx.save();
             this.ctx.fillStyle = star.colorPrefix + star.alpha + ')';
-            if (star.size > 1.2) {
-                this.ctx.shadowBlur = 4;
-                this.ctx.shadowColor = star.colorPrefix + '0.8)';
-            }
+            // Removed shadowBlur to fix extreme lag on mobile devices
 
             this.ctx.beginPath();
             this.ctx.arc(px, py, star.size, 0, Math.PI * 2);
@@ -332,8 +327,8 @@ class DarkGalaxyCanvas {
 
             const grad = this.ctx.createLinearGradient(ss.x, ss.y, tailX, tailY);
             grad.addColorStop(0, `rgba(255, 255, 255, ${ss.alpha})`);
-            grad.addColorStop(0.3, `rgba(124, 233, 230, ${ss.alpha * 0.8})`);
-            grad.addColorStop(1, `rgba(124, 233, 230, 0)`);
+            grad.addColorStop(0.3, `rgba(200, 200, 200, ${ss.alpha * 0.8})`);
+            grad.addColorStop(1, `rgba(200, 200, 200, 0)`);
 
             this.ctx.save();
             this.ctx.strokeStyle = grad;
@@ -634,7 +629,10 @@ class ThreePetRobot {
             this.hudLine.position.y = 0.7 + Math.sin(time * 2) * 0.12;
         }
 
-        this.renderer.render(this.scene, this.camera);
+        // Render Scene (only if visible to prevent WebGL 0x0 errors)
+        if (this.renderer && this.scene && this.camera && this.renderer.domElement.clientWidth > 0 && this.renderer.domElement.clientHeight > 0) {
+            this.renderer.render(this.scene, this.camera);
+        }
     }
 }
 
@@ -665,6 +663,10 @@ const handleResize = () => {
                 activePetRobot = null;
                 const roboViewer = document.createElement('spline-viewer');
                 roboViewer.setAttribute('url', DESKTOP_ROBO_URL);
+                roboViewer.setAttribute('events-target', 'global');
+                roboViewer.style.width = '100%';
+                roboViewer.style.height = '100%';
+                roboViewer.style.display = 'block';
                 roboContainer.appendChild(roboViewer);
             }
         } else if (isMobileWidth && activePetRobot) {
