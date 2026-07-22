@@ -70,6 +70,8 @@ main {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    text-align: center;
     min-height: 85vh;
 }
 
@@ -110,6 +112,8 @@ main h2 {
     font-size: 1.5rem;
     font-weight: bold;
     z-index: 10;
+    text-align: center;
+    margin: 0 auto;
 }
 
 
@@ -126,6 +130,8 @@ main h2 {
     font-weight: 300;
     letter-spacing: 1px;
     max-width: 22rem;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .scroll-down {
@@ -949,6 +955,7 @@ footer {
     .bento-grid {
         grid-template-columns: 1fr;
         grid-template-areas: "intro" "tech" "time" "passion";
+        
     }
 
     .about-title { margin-bottom: 5%; font-size: 3rem; }

@@ -132,8 +132,8 @@ class DarkGalaxyCanvas {
 
         // Parallax cursor / touch interaction
         const handleMove = (x, y) => {
-            this.targetMouseX = (x - window.innerWidth / 2) * 0.05;
-            this.targetMouseY = (y - window.innerHeight / 2) * 0.05;
+            this.targetMouseX = 0;
+            this.targetMouseY = 0;
         };
 
         window.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
@@ -300,7 +300,7 @@ class DarkGalaxyCanvas {
         });
 
         // 3. Draw & Rotate 2D Galaxy Spiral Arms with Elliptical Perspective Tilt
-        const tiltRatio = 0.55; // Y-axis compression for 2D galaxy disc tilt
+        const tiltRatio = 1.0; // Y-axis compression for 2D galaxy disc tilt
 
         this.galaxyStars.forEach(star => {
             star.angle += star.speed; // Orbit rotation
@@ -556,8 +556,12 @@ class ThreePetRobot {
         // Mouse & Touch Tracking
         const handleMove = (x, y) => {
             const rect = this.container.getBoundingClientRect();
-            const nx = ((x - rect.left) / rect.width) * 2 - 1;
-            const ny = -((y - rect.top) / rect.height) * 2 + 1;
+            let nx = ((x - rect.left) / rect.width) * 2 - 1;
+            let ny = -((y - rect.top) / rect.height) * 2 + 1;
+
+            // Clamp values to prevent the robot from flipping when moving far away
+            nx = Math.max(-1.5, Math.min(1.5, nx));
+            ny = Math.max(-1.5, Math.min(1.5, ny));
 
             this.targetRotationY = nx * 0.65;
             this.targetRotationX = -ny * 0.45;
